@@ -3,540 +3,728 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPI Algoritma & Flowchart - KKA Kelas X</title>
+    <title>Media Pembelajaran Interaktif - Fungsi Komposisi</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        cardHover: '#1f2937',
+                        accentBlue: '#3b82f6',
+                        accentIndigo: '#6366f1',
+                        accentAmber: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
         }
-        .tab-btn.active {
-            background-color: #2563eb;
-            color: #ffffff;
-            border-bottom: 2px solid #60a5fa;
+        .tab-content {
+            display: none;
         }
-        .fc-node {
-            transition: all 0.3s ease;
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
         }
-        .fc-node.active-node {
-            border-color: #22c55e !important;
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
-            transform: scale(1.05);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between bg-darkBg text-gray-100">
 
-    <!-- Header / Navbar Top -->
-    <header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-white p-2.5 rounded-lg text-xl font-bold">
-                    <i class="fa-solid fa-code-branch"></i>
+    <header class="bg-[#0f172a] border-b border-gray-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 p-3 rounded-xl shadow-md text-white">
+                        <i class="fa-solid fa-square-root-variable text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="inline-block px-2.5 py-0.5 text-xs font-semibold bg-blue-900/60 text-blue-300 rounded-full border border-blue-700/50 mb-1">KELAS X / XI SMA/SMK</span>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">Fungsi Komposisi & Aplikasinya</h1>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xs bg-blue-900/80 text-blue-300 px-2 py-0.5 rounded font-semibold tracking-wide">KELAS X SMA/SMK</span>
-                    <h1 class="text-lg font-bold text-slate-100">Algoritma & Flowchart (Mata Pelajaran KKA)</h1>
+
+                <!-- Time Badge -->
+                <div class="hidden md:flex items-center space-x-2 bg-amber-500/10 border border-amber-500/30 px-4 py-2 rounded-xl text-amber-400 text-sm font-medium">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>Alokasi Waktu: <strong>90 Menit Interaktif</strong></span>
                 </div>
             </div>
-            <div class="text-xs bg-slate-800 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded-full flex items-center gap-2">
-                <i class="fa-regular fa-clock"></i>
-                <span>Alokasi Waktu Pembelajaran: <b>90 Menit Interaktif</b></span>
-            </div>
+
+            <!-- Navbar Tabs (Horizontal Scrollable on mobile) -->
+            <nav class="flex space-x-1 overflow-x-auto py-2 scrollbar-none border-t border-gray-800/60" id="navbar-tabs">
+                <button onclick="switchTab('beranda')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all bg-blue-600 text-white shadow" data-target="beranda">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Beranda & Alur</span>
+                </button>
+                <button onclick="switchTab('materi')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 hover:bg-gray-800 hover:text-white" data-target="materi">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Eksplorasi Materi</span>
+                </button>
+                <button onclick="switchTab('contoh')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 hover:bg-gray-800 hover:text-white" data-target="contoh">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Contoh & Aplikasi</span>
+                </button>
+                <button onclick="switchTab('simulator')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 hover:bg-gray-800 hover:text-white" data-target="simulator">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Lab Simulator</span>
+                </button>
+                <button onclick="switchTab('kuis')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 hover:bg-gray-800 hover:text-white" data-target="kuis">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Kuis Evaluasi (5 Soal)</span>
+                </button>
+                <button onclick="switchTab('refleksi')" class="tab-btn flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 hover:bg-gray-800 hover:text-white" data-target="refleksi">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Lembar Refleksi</span>
+                </button>
+            </nav>
         </div>
-
-        <!-- Navigation Tabs -->
-        <nav class="max-w-7xl mx-auto mt-4 overflow-x-auto">
-            <div class="flex space-x-1 border-b border-slate-800 text-xs font-medium min-w-max pb-1">
-                <button onclick="switchTab('beranda')" id="btn-beranda" class="tab-btn active px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-house"></i> Beranda & Alur
-                </button>
-                <button onclick="switchTab('materi')" id="btn-materi" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-book-open"></i> Eksplorasi Materi
-                </button>
-                <button onclick="switchTab('simulator')" id="btn-simulator" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-vial"></i> Lab Simulator
-                </button>
-                <button onclick="switchTab('kasus')" id="btn-kasus" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-diagram-project"></i> Studi Kasus
-                </button>
-                <button onclick="switchTab('evaluasi')" id="btn-evaluasi" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-circle-check"></i> Kuis Evaluasi (5 Soal)
-                </button>
-                <button onclick="switchTab('refleksi')" id="btn-refleksi" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-heart"></i> Lembar Refleksi
-                </button>
-                <button onclick="switchTab('rekap')" id="btn-rekap" class="tab-btn px-4 py-2 rounded-t-lg flex items-center gap-2 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-database"></i> Rekap Guru
-                </button>
-            </div>
-        </nav>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto p-4 md:p-6 flex-grow w-full">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- TAB 1: BERANDA & ALUR -->
-        <section id="tab-beranda" class="tab-content block space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <h2 class="text-2xl font-bold text-blue-400 mb-2">Selamat Datang di Modul Interaktif Algoritma & Flowchart</h2>
-                <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                    Media pembelajaran interaktif ini dirancang untuk siswa Kelas X KKA dengan alokasi waktu **90 Menit**. Melalui simulasi visual dan latihan berbasis kasus, siswa akan memahami konsep struktur logis berpikir sistematis serta bagaimana mengeksekusi flowchart secara *real-time*.
+        <!-- ================= 1. TAB BERANDA & ALUR ================= -->
+        <section id="beranda" class="tab-content active space-y-6">
+            <div class="bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-cardBg border border-blue-500/20 rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Selamat Datang di Modul Interaktif Fungsi Komposisi</h2>
+                <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+                    Media pembelajaran interaktif ini dirancang khusus untuk siswa Kelas X / XI SMA/SMK. Melalui simulasi visual, pemecahan aljabar langkah demi langkah, serta studi kasus kontekstual di masyarakat, Anda akan memahami bagaimana fungsi dapat digabungkan untuk menyelesaikan masalah nyata secara sistematis.
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <div class="text-blue-400 text-xl font-bold mb-1">01. Konsep dasar & Contoh</div>
-                        <p class="text-xs text-slate-400">Memahami algoritma, studi kasus hitung luas bangun datar, serta simbol-simbol flowchart.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="switchTab('materi')" class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-3 rounded-xl transition shadow-lg flex items-center space-x-2">
+                        <span>Mulai Eksplorasi Materi</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button onclick="switchTab('simulator')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium px-6 py-3 rounded-xl transition border border-gray-700 flex items-center space-x-2">
+                        <span>Coba Lab Simulator</span>
+                        <i class="fa-solid fa-microchip"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menu Cards Grid (Sesuai Gaya Referensi) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="switchTab('materi')" class="bg-cardBg hover:bg-cardHover border border-gray-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition shadow-md group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-book-bookmark text-xl"></i>
                     </div>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <div class="text-green-400 text-xl font-bold mb-1">02. Lab Simulator</div>
-                        <p class="text-xs text-slate-400">Menguji logika percabangan (IF-ELSE) secara visual dengan input data acak.</p>
+                    <h3 class="text-lg font-bold text-white mb-2">01. Konsep Dasar & Mesin</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Memahami definisi fungsi komposisi $(f \circ g)(x)$, konsep pemetaan berantai, dan sifat-sifat dasar aljabarnya.
+                    </p>
+                </div>
+
+                <div onclick="switchTab('contoh')" class="bg-cardBg hover:bg-cardHover border border-gray-800 hover:border-indigo-500/50 p-6 rounded-2xl cursor-pointer transition shadow-md group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-store text-xl"></i>
                     </div>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <div class="text-amber-400 text-xl font-bold mb-1">03. Evaluasi Otomatis</div>
-                        <p class="text-xs text-slate-400">Mengukur pemahaman melalui kuis evaluasi dan menyimpan rekapan nilai.</p>
+                    <h3 class="text-lg font-bold text-white mb-2">02. Aljabar & Aplikasi Kontekstual</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Contoh perhitungan aljabar detail serta penerapan nyata seperti diskon bertingkat di pusat perbelanjaan dan konversi mata uang.
+                    </p>
+                </div>
+
+                <div onclick="switchTab('simulator')" class="bg-cardBg hover:bg-cardHover border border-gray-800 hover:border-amber-500/50 p-6 rounded-2xl cursor-pointer transition shadow-md group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-sliders text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">03. Lab Simulator & Kuis</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Uji nilai variabel pada mesin fungsi dinamis serta kerjakan 5 soal evaluasi untuk mengukur tingkat pemahaman Anda.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. TAB EKSPLORASI MATERI ================= -->
+        <section id="materi" class="tab-content space-y-6">
+            <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-4 flex items-center space-x-3">
+                    <i class="fa-solid fa-book-open text-blue-500"></i>
+                    <span>Konsep Dasar Fungsi Komposisi</span>
+                </h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Apa itu fungsi komposisi? Bayangkan Anda memiliki dua buah mesin pabrik yang bekerja secara berurutan. Mesin pertama ($g$) memproses bahan mentah menjadi setengah jadi, lalu mesin kedua ($f$) memproses hasil dari mesin pertama menjadi produk akhir. Penggabungan kerja dua fungsi ini disebut sebagai <strong class="text-blue-400">Fungsi Komposisi</strong>.
+                </p>
+
+                <div class="bg-darkBg border border-gray-800 p-5 rounded-xl my-6 flex flex-col md:flex-row items-center justify-around gap-4 text-center">
+                    <div class="p-4 bg-gray-900 border border-gray-700 rounded-lg w-full md:w-1/3">
+                        <span class="text-xs text-gray-400 block mb-1">Fungsi Pertama</span>
+                        <span class="text-lg font-mono text-indigo-400">g(x)</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right-long text-2xl text-gray-500 hidden md:block"></i>
+                    <i class="fa-solid fa-arrow-down text-2xl text-gray-500 block md:hidden"></i>
+                    <div class="p-4 bg-gray-900 border border-gray-700 rounded-lg w-full md:w-1/3">
+                        <span class="text-xs text-gray-400 block mb-1">Fungsi Kedua</span>
+                        <span class="text-lg font-mono text-blue-400">f(x)</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right-long text-2xl text-gray-500 hidden md:block"></i>
+                    <i class="fa-solid fa-arrow-down text-2xl text-gray-500 block md:hidden"></i>
+                    <div class="p-4 bg-blue-950/50 border border-blue-500/40 rounded-lg w-full md:w-1/3">
+                        <span class="text-xs text-blue-300 block mb-1">Hasil Komposisi</span>
+                        <span class="text-lg font-mono text-amber-400">(f ∘ g)(x) = f(g(x))</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-gray-900/60 p-5 rounded-xl border border-gray-800">
+                        <h4 class="font-bold text-white mb-2 flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-dot text-blue-400 text-xs"></i>
+                            <span>Notasi Pembacaan</span>
+                        </h4>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Notasi <strong class="text-blue-300">(f ∘ g)(x)</strong> dibaca <em>"f bundaran g dari x"</em> atau <em>"f komposisi g"</em>. Artinya, fungsi <span class="font-mono text-indigo-300">g</span> dikerjakan terlebih dahulu terhadap <span class="font-mono">x</span>, kemudian hasilnya dimasukkan ke fungsi <span class="font-mono text-blue-300">f</span>.
+                        </p>
+                    </div>
+                    <div class="bg-gray-900/60 p-5 rounded-xl border border-gray-800">
+                        <h4 class="font-bold text-white mb-2 flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-dot text-indigo-400 text-xs"></i>
+                            <span>Sifat-Sifat Penting</span>
+                        </h4>
+                        <ul class="text-gray-300 text-sm space-y-1.5 list-disc list-inside">
+                            <li>Umumnya <strong class="text-red-400">tidak komutatif</strong>: <span class="font-mono">(f ∘ g)(x) ≠ (g ∘ f)(x)</span></li>
+                            <li>Bersifat <strong class="text-green-400">asosiatif</strong>: <span class="font-mono">(f ∘ (g ∘ h))(x) = ((f ∘ g) ∘ h)(x)</span></li>
+                            <li>Terdapat fungsi identitas <span class="font-mono">I(x) = x</span> sehingga <span class="font-mono">(f ∘ I)(x) = (I ∘ f)(x) = f(x)</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 2: EKSPLORASI MATERI (DI-UPDATE DENGAN CONTOH LUAS PERSEGI / PERSEGI PANJANG) -->
-        <section id="tab-materi" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6 space-y-8">
-                
-                <!-- Sub-materi 1: Konsep Dasar Algoritma -->
+        <!-- ================= 3. TAB CONTOH & APLIKASI KONTEKSTUAL ================= -->
+        <section id="contoh" class="tab-content space-y-6">
+            <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-8">
                 <div>
-                    <h2 class="text-xl font-bold text-blue-400 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-book"></i> 1. Pengertian Algoritma & Ciri-cirinya
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center space-x-3">
+                        <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                        <span>Contoh 1: Fungsi Aljabar Biasa (Langkah demi Langkah)</span>
                     </h2>
-                    <p class="text-xs text-slate-300 leading-relaxed bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <b>Algoritma</b> adalah urutan langkah-langkah logis dan sistematis yang digunakan untuk menyelesaikan masalah tertentu atau mencapai suatu tujuan. Syarat algoritma yang valid antara lain:
-                        <br><br>
-                        • <b>Definiteness (Kepastian):</b> Setiap langkah harus terdefinisi secara jelas dan tidak bermakna ganda.<br>
-                        • <b>Finite (Keterbatasan):</b> Memiliki titik awal (*start*) dan titik akhir (*end*).<br>
-                        • <b>Input & Output:</b> Memiliki data masukan awal yang diproses untuk menghasilkan luaran/hasil.
-                    </p>
-                </div>
-
-                <!-- Sub-materi 2: Contoh Kasus Konkret (Luas Bangun Datar & Penentuan Jenis) -->
-                <div class="space-y-4">
-                    <h2 class="text-xl font-bold text-green-400 flex items-center gap-2">
-                        <i class="fa-solid fa-calculator"></i> 2. Studi Contoh: Algoritma Hitung Luas & Deteksi Bangun Datar
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Berikut adalah algoritma nyata untuk menghitung luas bangun segi empat serta menentukan apakah bangun tersebut dinamakan **Persegi** atau **Persegi Panjang** berdasarkan kondisi nilai panjang dan lebarnya:
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Teks Bahasa Natural & Pseudocode -->
-                        <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-3">
-                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">A. Deskripsi Algoritma & Pseudocode</h3>
-                            <div class="text-xs font-mono bg-slate-950 p-3 rounded text-slate-300 space-y-1.5 border border-slate-800">
-                                <p class="text-slate-500">// Pseudocode Percabangan Bangun Datar</p>
-                                <p><span class="text-purple-400">START</span></p>
-                                <p>&nbsp;&nbsp;<span class="text-blue-400">INPUT</span> panjang, lebar</p>
-                                <p>&nbsp;&nbsp;<span class="text-slate-400">Luas</span> = panjang * lebar</p>
-                                <p>&nbsp;&nbsp;<span class="text-amber-400">IF</span> (panjang == lebar) <span class="text-amber-400">THEN</span></p>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nama_bangun = <span class="text-green-300">"Persegi"</span></p>
-                                <p>&nbsp;&nbsp;<span class="text-amber-400">ELSE</span></p>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nama_bangun = <span class="text-green-300">"Persegi Panjang"</span></p>
-                                <p>&nbsp;&nbsp;<span class="text-amber-400">ENDIF</span></p>
-                                <p>&nbsp;&nbsp;<span class="text-blue-400">PRINT</span> nama_bangun, Luas</p>
-                                <p><span class="text-purple-400">END</span></p>
-                            </div>
+                    <p class="text-gray-300 text-sm mb-4">Diberikan dua fungsi aljabar:</p>
+                    <div class="bg-darkBg border border-gray-800 p-4 rounded-xl font-mono text-blue-300 text-center text-lg mb-4">
+                        f(x) = 2x + 3 &nbsp;&nbsp;&nbsp;&nbsp; dan &nbsp;&nbsp;&nbsp;&nbsp; g(x) = x² - 1
+                    </div>
+                    <p class="text-gray-300 text-sm mb-2 font-medium">Tentukan rumus fungsi komposisi <strong class="text-amber-400">(f ∘ g)(x)</strong> dan hitung nilai untuk <span class="font-mono">x = 3</span>!</p>
+                    
+                    <div class="bg-gray-900/80 border border-gray-800 p-5 rounded-xl space-y-3 text-sm">
+                        <div class="border-l-4 border-blue-500 pl-4 py-1">
+                            <span class="font-bold text-white block mb-1">Penyelesaian Langkah 1: Memahami Definisi</span>
+                            <span class="font-mono text-gray-300">(f ∘ g)(x) = f(g(x))</span>
                         </div>
-
-                        <!-- Diagram Flowchart Sederhana untuk Kasus Persegi -->
-                        <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 flex flex-col items-center justify-center space-y-2 text-xs">
-                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider w-full mb-2">B. Flowchart Hasil Konversi</h3>
-                            
-                            <div class="border border-amber-500 bg-amber-500/10 text-amber-300 px-4 py-1 rounded-full font-bold">[START] Mulai</div>
-                            <i class="fa-solid fa-arrow-down text-slate-600"></i>
-                            <div class="border border-blue-500 bg-blue-500/10 text-blue-300 px-4 py-1 rounded -skew-x-6 font-bold">Input (Panjang, Lebar)</div>
-                            <i class="fa-solid fa-arrow-down text-slate-600"></i>
-                            <div class="border border-slate-500 bg-slate-800 text-slate-200 px-4 py-1 rounded font-bold">Luas = Panjang × Lebar</div>
-                            <i class="fa-solid fa-arrow-down text-slate-600"></i>
-                            <div class="border border-purple-500 bg-purple-500/10 text-purple-300 px-3 py-1 rounded text-center border-dashed font-bold">Apakah Panjang == Lebar?</div>
-                            
-                            <div class="flex justify-between w-full px-4 my-1 text-[11px]">
-                                <div class="text-green-400 flex flex-col items-center">
-                                    <span>[YA]</span>
-                                    <div class="border border-green-500 bg-green-500/10 text-green-300 px-2 py-0.5 rounded mt-1">Nama = "Persegi"</div>
-                                </div>
-                                <div class="text-red-400 flex flex-col items-center">
-                                    <span>[TIDAK]</span>
-                                    <div class="border border-red-500 bg-red-500/10 text-red-300 px-2 py-0.5 rounded mt-1">Nama = "Persegi Panjang"</div>
-                                </div>
-                            </div>
-
-                            <i class="fa-solid fa-arrow-down text-slate-600"></i>
-                            <div class="border border-blue-500 bg-blue-500/10 text-blue-300 px-4 py-1 rounded -skew-x-6 font-bold">Cetak (Nama, Luas)</div>
-                            <i class="fa-solid fa-arrow-down text-slate-600"></i>
-                            <div class="border border-amber-500 bg-amber-500/10 text-amber-300 px-4 py-1 rounded-full font-bold">[END] Selesai</div>
+                        <div class="border-l-4 border-indigo-500 pl-4 py-1">
+                            <span class="font-bold text-white block mb-1">Penyelesaian Langkah 2: Substitusi Fungsi g(x) ke dalam f(x)</span>
+                            <p class="font-mono text-gray-300">f(x² - 1) = 2(x² - 1) + 3</p>
+                            <p class="font-mono text-gray-300 mt-1">= 2x² - 2 + 3</p>
+                            <p class="font-mono text-amber-400 mt-1">= 2x² + 1</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4 py-1">
+                            <span class="font-bold text-white block mb-1">Penyelesaian Langkah 3: Menghitung Nilai untuk x = 3</span>
+                            <p class="font-mono text-gray-300">(f ∘ g)(3) = 2(3)² + 1 = 2(9) + 1 = 18 + 1 = <strong class="text-green-400">19</strong></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sub-materi 3: Simbol Standar Flowchart -->
+                <hr class="border-gray-800">
+
                 <div>
-                    <h2 class="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-shapes"></i> 3. Simbol Standar Flowchart
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center space-x-3">
+                        <i class="fa-solid fa-cart-shopping text-indigo-400"></i>
+                        <span>Contoh 2: Aplikasi Kontekstual di Masyarakat (Diskon Bertingkat)</span>
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div class="bg-slate-900 p-3 rounded border border-slate-800 flex items-center gap-3">
-                            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full w-28 text-center font-mono font-bold">Oval</span>
-                            <div>
-                                <b class="text-slate-200">Terminator:</b>
-                                <p class="text-slate-400">Menandai awal (Start) atau akhir (End) dari suatu aliran proses.</p>
-                            </div>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Di sebuah pusat perbelanjaan, toko pakaian memberikan promo kupon diskon bertingkat. Seorang pembeli mendapatkan kupon diskon toko sebesar <strong class="text-blue-400">20%</strong> dilanjutkan dengan potongan voucher member sebesar <strong class="text-indigo-400">Rp 50.000</strong>.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-gray-900/60 p-4 rounded-xl border border-gray-800">
+                            <span class="text-xs text-gray-400 block mb-1">Fungsi Pertama (Diskon 20%):</span>
+                            <span class="font-mono text-blue-300">f(x) = 0.8x</span>
+                            <p class="text-xs text-gray-400 mt-1">x adalah harga awal barang dalam Rupiah.</p>
                         </div>
-                        <div class="bg-slate-900 p-3 rounded border border-slate-800 flex items-center gap-3">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/40 rounded -skew-x-6 w-28 text-center font-mono font-bold">Jajaran Genjang</span>
-                            <div>
-                                <b class="text-slate-200">Input / Output:</b>
-                                <p class="text-slate-400">Digunakan untuk menerima masukan data atau menampilkan hasil cetakan.</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded border border-slate-800 flex items-center gap-3">
-                            <span class="px-3 py-1 bg-slate-500/20 text-slate-300 border border-slate-500/40 rounded w-28 text-center font-mono font-bold">Persegi Panjang</span>
-                            <div>
-                                <b class="text-slate-200">Process:</b>
-                                <p class="text-slate-400">Menyatakan operasi penghitungan aritmatika atau pengolahan data.</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-900 p-3 rounded border border-slate-800 flex items-center gap-3">
-                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded w-28 text-center font-mono font-bold">Belah Ketupat</span>
-                            <div>
-                                <b class="text-slate-200">Decision (Keputusan):</b>
-                                <p class="text-slate-400">Percabangan kondisi logika (misal: membandingkan Ya / Tidak).</p>
-                            </div>
+                        <div class="bg-gray-900/60 p-4 rounded-xl border border-gray-800">
+                            <span class="text-xs text-gray-400 block mb-1">Fungsi Kedua (Potongan Voucher):</span>
+                            <span class="font-mono text-indigo-300">g(x) = x - 50000</span>
+                            <p class="text-xs text-gray-400 mt-1">Potongan langsung Rp 50.000 dari harga setelah diskon.</p>
                         </div>
                     </div>
-                </div>
 
+                    <div class="bg-gray-900/80 border border-gray-800 p-5 rounded-xl space-y-2 text-sm">
+                        <span class="font-bold text-white block mb-1">Analisis Harga Akhir untuk Barang Sebesar Rp 400.000:</span>
+                        <p class="text-gray-300">Jika kasir menerapkan diskon toko terlebih dahulu baru voucher <span class="font-mono text-amber-400">(g ∘ f)(400000)</span>:</p>
+                        <ul class="list-disc list-inside font-mono text-gray-300 space-y-1 pl-2">
+                            <li>Harga setelah diskon 20%: f(400.000) = 0.8 × 400.000 = Rp 320.000</li>
+                            <li>Harga setelah voucher: g(320.000) = 320.000 - 50.000 = <strong class="text-green-400">Rp 270.000</strong></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- TAB 3: LAB SIMULATOR -->
-        <section id="tab-simulator" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="bg-amber-500 text-slate-950 text-xs font-bold px-2 py-1 rounded">2</span>
-                    <h2 class="text-lg font-bold text-slate-100">Simulator Algoritma Kelulusan Nilai (Percabangan IF-ELSE)</h2>
-                </div>
-                <p class="text-xs text-slate-400 mb-6">Atur nilai siswa menggunakan slider di bawah. Amati alur keputusan pada flowchart interaktif di sebelah kanan!</p>
+        <!-- ================= 4. TAB LAB SIMULATOR / MESIN KOMPOSISI ================= -->
+        <section id="simulator" class="tab-content space-y-6">
+            <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center space-x-3">
+                    <i class="fa-solid fa-microchip text-blue-500"></i>
+                    <span>Lab Simulator Mesin Fungsi Komposisi</span>
+                </h2>
+                <p class="text-gray-300 text-sm mb-6">
+                    Uji coba interaktif nilai input <span class="font-mono text-amber-400">x</span> pada simulasi mesin berantai <span class="font-mono text-blue-400">(f ∘ g)(x)</span> secara real-time.
+                </p>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Control Panel (Kiri) -->
-                    <div class="lg:col-span-5 bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-6">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Input Nilai Siswa (0 - 100):</label>
-                            <input type="range" id="scoreSlider" min="0" max="100" value="75" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500" oninput="runSimulation()">
-                            <div class="flex justify-between text-xs text-slate-400 mt-2">
-                                <span>Nilai KKM: <b>75</b></span>
-                                <span class="text-lg font-bold text-blue-400" id="scoreDisplay">75</span>
-                            </div>
-                        </div>
-
-                        <div class="border-t border-slate-800 pt-4">
-                            <label class="block text-xs font-semibold text-slate-300 mb-2">Syarat Kelulusan Ditentukan:</label>
-                            <div class="bg-slate-800/80 p-3 rounded text-xs text-slate-300 font-mono">
-                                IF (Nilai >= 75) THEN "LULUS"<br>
-                                ELSE "REMIDIAL"
-                            </div>
-                        </div>
-
-                        <!-- Mathematical Formula Output Style -->
-                        <div class="bg-slate-800/40 border border-slate-700/50 p-4 rounded-lg text-center">
-                            <span class="text-xs text-slate-400 block mb-1">Status Keputusan Sistem:</span>
-                            <div id="mathOutput" class="text-xl font-bold font-mono text-green-400">
-                                LULUS
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Flowchart Interactive Display (Kanan) -->
-                    <div class="lg:col-span-7 bg-slate-900 p-6 rounded-xl border border-slate-800 flex flex-col items-center justify-center space-y-3 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                    <!-- Control Panel -->
+                    <div class="bg-darkBg border border-gray-800 p-6 rounded-xl space-y-4 lg:col-span-1">
+                        <h3 class="font-bold text-white text-base">Pengaturan Fungsi</h3>
                         
-                        <!-- Start Node -->
-                        <div id="node-start" class="fc-node border-2 border-amber-500 bg-amber-500/10 text-amber-300 px-6 py-2 rounded-full text-xs font-bold">
-                            [START] Mulai
-                        </div>
-                        <i class="fa-solid fa-arrow-down text-slate-600 text-xs"></i>
-
-                        <!-- Input Node -->
-                        <div id="node-input" class="fc-node border-2 border-blue-500 bg-blue-500/10 text-blue-300 px-6 py-2 rounded-lg -skew-x-6 text-xs font-bold">
-                            Input Nilai
-                        </div>
-                        <i class="fa-solid fa-arrow-down text-slate-600 text-xs"></i>
-
-                        <!-- Decision Node -->
-                        <div id="node-decision" class="fc-node border-2 border-purple-500 bg-purple-500/10 text-purple-300 px-6 py-3 rotate-0 text-xs font-bold text-center border-dashed">
-                            Apakah Nilai >= 75 ?
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">PILIH FUNGSI PERTAMA g(x)</label>
+                            <select id="sim-g" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-gray-200 focus:outline-none focus:border-blue-500">
+                                <option value="x2-1">g(x) = x² - 1</option>
+                                <option value="2x+1">g(x) = 2x + 1</option>
+                                <option value="x+3">g(x) = x + 3</option>
+                            </select>
                         </div>
 
-                        <!-- Branches -->
-                        <div class="w-full flex justify-around my-2 text-xs font-bold">
-                            <div class="text-green-400 flex flex-col items-center">
-                                <span>[ YA ]</span>
-                                <i class="fa-solid fa-arrow-down text-slate-600 my-1"></i>
-                                <div id="node-true" class="fc-node border-2 border-green-500 bg-green-500/10 text-green-300 px-4 py-2 rounded text-xs">
-                                    Cetak "LULUS"
-                                </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">PILIH FUNGSI KEDUA f(x)</label>
+                            <select id="sim-f" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-gray-200 focus:outline-none focus:border-blue-500">
+                                <option value="2x+3">f(x) = 2x + 3</option>
+                                <option value="3x-2">f(x) = 3x - 2</option>
+                                <option value="x2">f(x) = x²</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">NILAI INPUT x = <span id="val-display" class="text-amber-400">3</span></label>
+                            <input type="range" id="sim-x" min="-5" max="10" value="3" class="w-full accent-blue-500 cursor-pointer" oninput="runSimulator()">
+                        </div>
+
+                        <button onclick="runSimulator()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition shadow">
+                            Proses Komposisi
+                        </button>
+                    </div>
+
+                    <!-- Visual Process Display -->
+                    <div class="bg-darkBg border border-gray-800 p-6 rounded-xl lg:col-span-2 flex flex-col justify-center space-y-6">
+                        <h3 class="font-bold text-white text-center text-lg mb-2">Alur Proses Mesin Komposisi</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                            <!-- Step 1 -->
+                            <div class="bg-gray-900 border border-gray-800 p-4 rounded-xl">
+                                <span class="text-xs text-gray-400 block mb-1">1. Nilai Masukan</span>
+                                <span id="out-x" class="text-2xl font-bold font-mono text-white">3</span>
                             </div>
-                            <div class="text-red-400 flex flex-col items-center">
-                                <span>[ TIDAK ]</span>
-                                <i class="fa-solid fa-arrow-down text-slate-600 my-1"></i>
-                                <div id="node-false" class="fc-node border-2 border-red-500 bg-red-500/10 text-red-300 px-4 py-2 rounded text-xs">
-                                    Cetak "REMIDIAL"
-                                </div>
+
+                            <!-- Step 2 -->
+                            <div class="bg-gray-900 border border-gray-800 p-4 rounded-xl">
+                                <span class="text-xs text-indigo-400 block mb-1">2. Hasil g(x)</span>
+                                <span id="out-gx" class="text-2xl font-bold font-mono text-indigo-400">8</span>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="bg-blue-950/60 border border-blue-500/50 p-4 rounded-xl">
+                                <span class="text-xs text-amber-400 block mb-1">3. Hasil Akhir (f ∘ g)(x)</span>
+                                <span id="out-fgx" class="text-2xl font-bold font-mono text-amber-400">19</span>
                             </div>
                         </div>
 
-                        <i class="fa-solid fa-arrow-down text-slate-600 text-xs"></i>
-                        <!-- End Node -->
-                        <div id="node-end" class="fc-node border-2 border-amber-500 bg-amber-500/10 text-amber-300 px-6 py-2 rounded-full text-xs font-bold">
-                            [END] Selesai
+                        <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-800 text-center text-sm">
+                            <span class="text-gray-400">Formula Komposisi Saat Ini: </span>
+                            <span id="out-formula" class="font-mono text-blue-300 font-semibold">(f ∘ g)(x) = 2(x² - 1) + 3 = 2x² + 1</span>
                         </div>
 
+                        <!-- Penyelesaian Langkah demi Langkah (Live Dynamic Breakdown) -->
+                        <div id="sim-steps-container" class="space-y-3 pt-2">
+                            <div class="border-l-4 border-blue-500 bg-gray-900/80 p-4 rounded-r-xl">
+                                <span class="font-bold text-white block mb-1 text-sm">Penyelesaian Langkah 1: Memahami Definisi</span>
+                                <span id="step-1-text" class="font-mono text-gray-300 text-xs sm:text-sm">(f ∘ g)(x) = f(g(x))</span>
+                            </div>
+                            <div class="border-l-4 border-indigo-500 bg-gray-900/80 p-4 rounded-r-xl">
+                                <span class="font-bold text-white block mb-1 text-sm">Penyelesaian Langkah 2: Substitusi Fungsi g(x) ke dalam f(x)</span>
+                                <p id="step-2-text-1" class="font-mono text-gray-300 text-xs sm:text-sm">f(x² - 1) = 2(x² - 1) + 3</p>
+                                <p id="step-2-text-2" class="font-mono text-amber-400 text-xs sm:text-sm mt-1">= 2x² + 1</p>
+                            </div>
+                            <div class="border-l-4 border-green-500 bg-gray-900/80 p-4 rounded-r-xl">
+                                <span class="font-bold text-white block mb-1 text-sm">Penyelesaian Langkah 3: Menghitung Nilai untuk x = <span id="step-3-x">3</span></span>
+                                <p id="step-3-text" class="font-mono text-green-400 text-xs sm:text-sm">(f ∘ g)(3) = 2(3)² + 1 = 19</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 4: STUDI KASUS -->
-        <section id="tab-kasus" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <h2 class="text-xl font-bold text-slate-100 mb-4"><i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>Studi Kasus Kehidupan Nyata</h2>
-                <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 space-y-3">
-                    <h3 class="text-sm font-bold text-blue-400">Kasus: Sistem Login Aplikasi Sekolah</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Buatlah urutan algoritma untuk kasus login aplikasi siswa:
-                    </p>
-                    <ol class="list-decimal list-inside text-xs text-slate-400 space-y-1 bg-slate-800 p-3 rounded">
-                        <li>Pengguna memasukkan Username dan Password.</li>
-                        <li>Sistem memeriksa ketersediaan data pada database.</li>
-                        <li>Jika sesuai, tampilkan "Halaman Dashboard".</li>
-                        <li>Jika tidak sesuai, tampilkan pesan error "Username/Password Salah".</li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 5: KUIS EVALUASI -->
-        <section id="tab-evaluasi" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-3">
-                    <h2 class="text-xl font-bold text-slate-100"><i class="fa-solid fa-pen-to-square text-green-400 mr-2"></i>Kuis Evaluasi (5 Soal)</h2>
-                    <span id="quizScoreBadge" class="text-xs bg-slate-900 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Belum Mengerjakan</span>
+        <!-- ================= 5. TAB KUIS EVALUASI (5 SOAL) ================= -->
+        <section id="kuis" class="tab-content space-y-6">
+            <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 border-b border-gray-800 mb-6 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center space-x-3">
+                            <i class="fa-solid fa-circle-check text-green-500"></i>
+                            <span>Kuis Evaluasi Pemahaman (5 Soal)</span>
+                        </h2>
+                        <p class="text-gray-400 text-sm mt-1">Jawablah pertanyaan pilihan ganda di bawah ini dengan teliti.</p>
+                    </div>
+                    <div id="quiz-score-badge" class="hidden bg-green-500/10 border border-green-500/30 px-4 py-2 rounded-xl text-green-400 font-bold text-sm">
+                        Skor Anda: <span id="final-score">0</span> / 100
+                    </div>
                 </div>
 
-                <form id="quizForm" class="space-y-6">
+                <form id="quiz-form" onsubmit="submitQuiz(event)" class="space-y-8">
                     <!-- Soal 1 -->
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <p class="text-xs font-semibold text-slate-200 mb-3">1. Simbol flowchart yang berfungsi untuk menentukan keputusan (percabangan) adalah...</p>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="A" class="accent-blue-500"> A. Oval</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="B" class="accent-blue-500"> B. Belah Ketupat (Diamond)</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="C" class="accent-blue-500"> C. Persegi Panjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="D" class="accent-blue-500"> D. Jajaran Genjang</label>
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-700/50">Soal 1 dari 5</span>
+                        <p class="text-white font-medium text-sm sm:text-base">Diketahui fungsi <span class="font-mono text-blue-300">f(x) = 3x - 1</span> dan <span class="font-mono text-indigo-300">g(x) = 2x + 4</span>. Tentukan rumus fungsi komposisi <span class="font-mono text-amber-400">(f ∘ g)(x)</span>!</p>
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q1" value="A" class="accent-blue-500"> <span>A. 6x + 11</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q1" value="B" class="accent-blue-500"> <span>B. 6x + 3</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q1" value="C" class="accent-blue-500"> <span>C. 6x + 5</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q1" value="D" class="accent-blue-500"> <span>D. 3x + 7</span>
+                            </label>
+                        </div>
+                        <div id="expl-q1" class="hidden text-xs p-3 rounded-lg bg-gray-900 border border-gray-800 text-gray-300 mt-2">
+                            <strong>Pembahasan:</strong> (f ∘ g)(x) = f(g(x)) = 3(2x + 4) - 1 = 6x + 12 - 1 = <strong>6x + 11</strong> (Jawaban A).
                         </div>
                     </div>
 
                     <!-- Soal 2 -->
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <p class="text-xs font-semibold text-slate-200 mb-3">2. Jika nilai Panjang = 10 dan Lebar = 10, berdasarkan algoritma pembanding luas, nama bangun yang dicetak adalah...</p>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="A" class="accent-blue-500"> A. Persegi</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="B" class="accent-blue-500"> B. Persegi Panjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="C" class="accent-blue-500"> C. Segitiga</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="D" class="accent-blue-500"> D. Lingkaran</label>
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-700/50">Soal 2 dari 5</span>
+                        <p class="text-white font-medium text-sm sm:text-base">Jika <span class="font-mono text-blue-300">f(x) = x² + 2</span> dan <span class="font-mono text-indigo-300">g(x) = x - 3</span>, berapakah nilai dari <span class="font-mono text-amber-400">(f ∘ g)(2)</span>?</p>
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q2" value="A" class="accent-blue-500"> <span>A. 3</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q2" value="B" class="accent-blue-500"> <span>B. 6</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q2" value="C" class="accent-blue-500"> <span>C. 11</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q2" value="D" class="accent-blue-500"> <span>D. 18</span>
+                            </label>
+                        </div>
+                        <div id="expl-q2" class="hidden text-xs p-3 rounded-lg bg-gray-900 border border-gray-800 text-gray-300 mt-2">
+                            <strong>Pembahasan:</strong> g(2) = 2 - 3 = -1. Kemudian f(-1) = (-1)² + 2 = 1 + 2 = <strong>3</strong> (Jawaban A).
                         </div>
                     </div>
 
                     <!-- Soal 3 -->
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <p class="text-xs font-semibold text-slate-200 mb-3">3. Manakah simbol yang tepat untuk menyatakan proses perhitungan matematika (seperti Luas = Panjang × Lebar)?</p>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="A" class="accent-blue-500"> A. Jajaran Genjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="B" class="accent-blue-500"> B. Persegi Panjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="C" class="accent-blue-500"> C. Lingkaran</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3" value="D" class="accent-blue-500"> D. Oval</label>
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-700/50">Soal 3 dari 5</span>
+                        <p class="text-white font-medium text-sm sm:text-base">Diketahui <span class="font-mono text-blue-300">(f ∘ g)(x) = 4x² + 8x - 3</span> dan <span class="font-mono text-indigo-300">g(x) = 2x + 2</span>. Tentukan rumus <span class="font-mono text-amber-400">f(x)</span>!</p>
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q3" value="A" class="accent-blue-500"> <span>A. f(x) = x² - 7</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q3" value="B" class="accent-blue-500"> <span>B. f(x) = x² + 4x</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q3" value="C" class="accent-blue-500"> <span>C. f(x) = 2x² - 5</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q3" value="D" class="accent-blue-500"> <span>D. f(x) = x² - 5</span>
+                            </label>
+                        </div>
+                        <div id="expl-q3" class="hidden text-xs p-3 rounded-lg bg-gray-900 border border-gray-800 text-gray-300 mt-2">
+                            <strong>Pembahasan:</strong> Misal p = 2x + 2 maka x = (p-2)/2. Substitusi balik menghasilkan f(x) = <strong>x² - 5</strong> (Jawaban D).
                         </div>
                     </div>
 
                     <!-- Soal 4 -->
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <p class="text-xs font-semibold text-slate-200 mb-3">4. Urutan simbol terminator pada flowchart yang benar diletakkan pada...</p>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="A" class="accent-blue-500"> A. Tengah flowchart saja</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="B" class="accent-blue-500"> B. Awal (Start) dan Akhir (End) flowchart</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="C" class="accent-blue-500"> C. Hanya di akhir</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q4" value="D" class="accent-blue-500"> D. Di setiap percabangan</label>
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-700/50">Soal 4 dari 5</span>
+                        <p class="text-white font-medium text-sm sm:text-base">Manakah pernyataan di bawah ini yang paling tepat mengenai sifat fungsi komposisi?</p>
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q4" value="A" class="accent-blue-500"> <span>A. Bersifat komutatif: (f ∘ g)(x) = (g ∘ f)(x)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q4" value="B" class="accent-blue-500"> <span>B. Bersifat asosiatif: (f ∘ (g ∘ h))(x) = ((f ∘ g) ∘ h)(x)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q4" value="C" class="accent-blue-500"> <span>C. Selalu menghasilkan nilai yang sama terlepas dari urutan fungsi</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q4" value="D" class="accent-blue-500"> <span>D. Tidak memerlukan fungsi identitas</span>
+                            </label>
+                        </div>
+                        <div id="expl-q4" class="hidden text-xs p-3 rounded-lg bg-gray-900 border border-gray-800 text-gray-300 mt-2">
+                            <strong>Pembahasan:</strong> Fungsi komposisi umumnya tidak komutatif, tetapi memenuhi sifat <strong>asosiatif</strong> (Jawaban B).
                         </div>
                     </div>
 
                     <!-- Soal 5 -->
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                        <p class="text-xs font-semibold text-slate-200 mb-3">5. Jika Panjang = 12 dan Lebar = 5, berapakah Luas dan Nama Bangun yang dihasilkan?</p>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="A" class="accent-blue-500"> A. Luas = 60, Nama = Persegi Panjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="B" class="accent-blue-500"> B. Luas = 60, Nama = Persegi</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="C" class="accent-blue-500"> C. Luas = 17, Nama = Persegi Panjang</label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q5" value="D" class="accent-blue-500"> D. Luas = 17, Nama = Persegi</label>
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-3">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-700/50">Soal 5 dari 5</span>
+                        <p class="text-white font-medium text-sm sm:text-base">Sebuah pabrik kertas menggunakan mesin I untuk mengubah kayu menjadi bubur kertas dengan fungsi <span class="font-mono text-blue-300">f(x) = 2x - 1</span> (dalam ton), lalu mesin II mengubah bubur kertas menjadi kertas siap pakai dengan <span class="font-mono text-indigo-300">g(x) = x² + 5</span>. Jika tersedia 3 ton kayu, berapa ton kertas akhir yang dihasilkan jika melalui mesin I lalu mesin II?</p>
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q5" value="A" class="accent-blue-500"> <span>A. 25 ton</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q5" value="B" class="accent-blue-500"> <span>B. 30 ton</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q5" value="C" class="accent-blue-500"> <span>C. 41 ton</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-sm text-gray-300 cursor-pointer hover:text-white">
+                                <input type="radio" name="q5" value="D" class="accent-blue-500"> <span>D. 50 ton</span>
+                            </label>
+                        </div>
+                        <div id="expl-q5" class="hidden text-xs p-3 rounded-lg bg-gray-900 border border-gray-800 text-gray-300 mt-2">
+                            <strong>Pembahasan:</strong> f(3) = 2(3) - 1 = 5 ton bubur. Lalu g(5) = 5² + 5 = 25 + 5 = <strong>30 ton</strong> (Jawaban B).
                         </div>
                     </div>
 
-                    <button type="button" onclick="submitQuiz()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-6 py-2.5 rounded-lg transition">
-                        Kirim & Periksa Jawaban
-                    </button>
+                    <div class="flex justify-end pt-4">
+                        <button type="submit" class="bg-green-600 hover:bg-green-500 text-white font-medium px-8 py-3 rounded-xl transition shadow-lg flex items-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kirim Jawaban & Lihat Nilai</span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </section>
 
-        <!-- TAB 6: LEMBAR REFLEKSI -->
-        <section id="tab-refleksi" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <h2 class="text-xl font-bold text-slate-100 mb-4"><i class="fa-solid fa-heart text-pink-400 mr-2"></i>Lembar Refleksi Siswa</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-slate-300 mb-1">Nama Siswa / Kelompok:</label>
-                        <input type="text" id="refName" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-slate-100 focus:outline-none focus:border-blue-500" placeholder="Ketik nama Anda...">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-300 mb-1">Apa hal terpenting yang Anda pelajari hari ini mengenai Algoritma Percabangan?</label>
-                        <textarea id="refText" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-slate-100 focus:outline-none focus:border-blue-500" placeholder="Tuliskan pendapat Anda..."></textarea>
-                    </div>
-                    <button onclick="saveReflection()" class="bg-pink-600 hover:bg-pink-500 text-white font-semibold text-xs px-5 py-2 rounded transition">
-                        Simpan Refleksi
-                    </button>
-                </div>
-            </div>
-        </section>
+        <!-- ================= 6. TAB LEMBAR REFLEKSI & REKAP ================= -->
+        <section id="refleksi" class="tab-content space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Lembar Refleksi Siswa -->
+                <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-4">
+                    <h2 class="text-xl font-bold text-white flex items-center space-x-3">
+                        <i class="fa-solid fa-heart text-red-500"></i>
+                        <span>Lembar Refleksi Pembelajaran</span>
+                    </h2>
+                    <p class="text-gray-300 text-sm">Bagaimana pengalaman belajar Anda hari ini? Sampaikan kesan dan kendala Anda.</p>
+                    
+                    <form onsubmit="submitReflection(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">NAMA LENGKAP & KELAS</label>
+                            <input type="text" id="ref-name" required placeholder="Contoh: Budi Santoso - X PPLG" class="w-full bg-darkBg border border-gray-700 rounded-lg p-2.5 text-sm text-gray-200 focus:outline-none focus:border-blue-500">
+                        </div>
 
-        <!-- TAB 7: REKAP GURU -->
-        <section id="tab-rekap" class="tab-content hidden space-y-6">
-            <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-6">
-                <h2 class="text-xl font-bold text-slate-100 mb-4"><i class="fa-solid fa-database text-purple-400 mr-2"></i>Rekapitulasi Pembelajaran (Guru)</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300 border-collapse">
-                        <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-700">
-                            <tr>
-                                <th class="p-3">Nama Siswa</th>
-                                <th class="p-3">Nilai Kuis</th>
-                                <th class="p-3">Refleksi</th>
-                                <th class="p-3">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rekapTableBody">
-                            <tr class="border-b border-slate-800">
-                                <td class="p-3 italic text-slate-500" colspan="4">Belum ada data tersimpan. Kerjakan Kuis & Refleksi terlebih dahulu.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">SEBERAPA PAHAM ANDA DENGAN MATERI FUNGSI KOMPOSISI?</label>
+                            <select id="ref-level" class="w-full bg-darkBg border border-gray-700 rounded-lg p-2.5 text-sm text-gray-200 focus:outline-none focus:border-blue-500">
+                                <option value="Sangat Paham">Sangat Paham & Menguasai</option>
+                                <option value="Cukup Paham">Cukup Paham, Perlu Latihan Lagi</option>
+                                <option value="Masih Bingung">Masih Bingung / Butuh Bimbingan Guru</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">PESAN, KESAN, ATAU BAGIAN YANG PALING MENARIK</label>
+                            <textarea id="ref-msg" rows="3" required placeholder="Tuliskan refleksi Anda di sini..." class="w-full bg-darkBg border border-gray-700 rounded-lg p-2.5 text-sm text-gray-200 focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition shadow">
+                            Simpan Refleksi
+                        </button>
+                    </form>
+                    <div id="ref-success" class="hidden text-xs text-green-400 text-center font-medium bg-green-950/40 p-2 rounded-lg border border-green-800/50">
+                        Terima kasih! Refleksi Anda telah berhasil dicatat.
+                    </div>
+                </div>
+
+                <!-- Rekap Guru / Ringkasan Nilai -->
+                <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-4">
+                    <h2 class="text-xl font-bold text-white flex items-center space-x-3">
+                        <i class="fa-solid fa-database text-blue-500"></i>
+                        <span>Rekapitulasi Nilai & Aktivitas</span>
+                    </h2>
+                    <p class="text-gray-300 text-sm">Ringkasan status pengerjaan modul dan evaluasi Anda selama sesi pembelajaran interaktif ini.</p>
+                    
+                    <div class="bg-darkBg border border-gray-800 p-5 rounded-xl space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400 text-sm">Status Kuis Evaluasi</span>
+                            <span id="recap-status" class="px-2.5 py-1 text-xs font-semibold bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">Belum Dikerjakan</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400 text-sm">Skor Kuis Akhir</span>
+                            <span id="recap-score" class="font-mono font-bold text-white text-base">- / 100</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span class="text-gray-400 text-sm">Lab Simulator Teruji</span>
+                            <span class="font-mono text-blue-400 text-sm">Aktif & Normal</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 text-sm">Alokasi Waktu Belajar</span>
+                            <span class="font-mono text-green-400 text-sm">90 Menit (Sesi Aktif)</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="window.print()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium py-2.5 rounded-lg transition border border-gray-700 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Cetak / Ekspor Laporan Pembelajaran</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Media Pembelajaran Interaktif Mapel KKA Kelas X &copy; 2026 - Algoritma & Flowchart
+    <footer class="bg-[#0f172a] border-t border-gray-800 py-6 mt-12 text-center text-xs text-gray-500">
+        <p>Media Pembelajaran Interaktif Kurikulum Merdeka • Materi Fungsi Komposisi Kelas X / XI SMA/SMK</p>
     </footer>
 
-    <!-- Logic JavaScript -->
     <script>
-        let currentQuizScore = null;
-        let reflectionData = null;
+        // Tab Navigation Switcher
+        function switchTab(targetId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow');
+                btn.classList.add('text-gray-300', 'hover:bg-gray-800', 'hover:text-white');
+            });
 
-        function switchTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.add('hidden'));
-
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`btn-${tabName}`).classList.add('active');
-        }
-
-        function runSimulation() {
-            const val = parseInt(document.getElementById('scoreSlider').value);
-            document.getElementById('scoreDisplay').innerText = val;
-
-            const mathOutput = document.getElementById('mathOutput');
-            const nodeTrue = document.getElementById('node-true');
-            const nodeFalse = document.getElementById('node-false');
-
-            nodeTrue.classList.remove('active-node');
-            nodeFalse.classList.remove('active-node');
-
-            if(val >= 75) {
-                mathOutput.innerHTML = `<span class="text-green-400">STATUS: LULUS (Nilai ${val} ≥ 75)</span>`;
-                nodeTrue.classList.add('active-node');
-            } else {
-                mathOutput.innerHTML = `<span class="text-red-400">STATUS: REMIDIAL (Nilai ${val} < 75)</span>`;
-                nodeFalse.classList.add('active-node');
+            document.getElementById(targetId).classList.add('active');
+            const activeBtn = document.querySelector(`[data-target="${targetId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-300', 'hover:bg-gray-800', 'hover:text-white');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function submitQuiz() {
-            const answers = { q1: 'B', q2: 'A', q3: 'B', q4: 'B', q5: 'A' };
-            let score = 0;
+        // Lab Simulator Engine with Step-by-Step Dynamic Resolution Cards
+        function runSimulator() {
+            const gType = document.getElementById('sim-g').value;
+            const fType = document.getElementById('sim-f').value;
+            const xVal = parseFloat(document.getElementById('sim-x').value);
+            
+            document.getElementById('val-display').innerText = xVal;
+            document.getElementById('out-x').innerText = xVal;
 
-            for(let i=1; i<=5; i++) {
+            let gx = 0;
+            let formulaG = "";
+            let textStep2_1 = "";
+            let textStep2_2 = "";
+            let formulaFinal = "";
+
+            // Evaluate g(x)
+            if (gType === 'x2-1') {
+                gx = (xVal * xVal) - 1;
+                formulaG = "x² - 1";
+            } else if (gType === '2x+1') {
+                gx = (2 * xVal) + 1;
+                formulaG = "2x + 1";
+            } else if (gType === 'x+3') {
+                gx = xVal + 3;
+                formulaG = "x + 3";
+            }
+            document.getElementById('out-gx').innerText = gx;
+
+            let fgx = 0;
+            // Evaluate f(g(x)) and build step-by-step text
+            if (fType === '2x+3') {
+                fgx = (2 * gx) + 3;
+                formulaFinal = `2(${formulaG}) + 3`;
+                if (gType === 'x2-1') textStep2_2 = "= 2x² - 2 + 3 = 2x² + 1";
+                else if (gType === '2x+1') textStep2_2 = "= 4x + 2 + 3 = 4x + 5";
+                else if (gType === '2x+1' === false && gType === 'x+3') textStep2_2 = "= 2x + 6 + 3 = 2x + 9";
+            } else if (fType === '3x-2') {
+                fgx = (3 * gx) - 2;
+                formulaFinal = `3(${formulaG}) - 2`;
+                if (gType === 'x2-1') textStep2_2 = "= 3x² - 3 - 2 = 3x² - 5";
+                else if (gType === '2x+1') textStep2_2 = "= 6x + 3 - 2 = 6x + 1";
+                else if (gType === 'x+3') textStep2_2 = "= 3x + 9 - 2 = 3x + 7";
+            } else if (fType === 'x2') {
+                fgx = gx * gx;
+                formulaFinal = `(${formulaG})²`;
+                if (gType === 'x2-1') textStep2_2 = "= (x² - 1)² = x⁴ - 2x² + 1";
+                else if (gType === '2x+1') textStep2_2 = "= (2x + 1)² = 4x² + 4x + 1";
+                else if (gType === 'x+3') textStep2_2 = "= (x + 3)² = x² + 6x + 9";
+            }
+
+            if (fType === '2x+3' && gType === 'x+3') textStep2_2 = "= 2x + 6 + 3 = 2x + 9";
+            if (fType === '3x-2' && gType === 'x+3') textStep2_2 = "= 3x + 9 - 2 = 3x + 7";
+
+            document.getElementById('out-fgx').innerText = fgx;
+            document.getElementById('out-formula').innerText = `(f ∘ g)(x) = ${formulaFinal}`;
+
+            // Update Breakdown Cards
+            document.getElementById('step-1-text').innerText = `(f ∘ g)(x) = f(g(x)) dengan g(x) = ${formulaG}`;
+            document.getElementById('step-2-text-1').innerText = `f(${formulaG}) = disubstitusikan ke fungsi f`;
+            document.getElementById('step-2-text-2').innerText = formulaFinal + " " + textStep2_2;
+            
+            document.getElementById('step-3-x').innerText = xVal;
+            document.getElementById('step-3-text').innerText = `(f ∘ g)(${xVal}) = Substitusi x = ${xVal} menghasilkan nilai akhir: ${fgx}`;
+        }
+
+        // Initialize Simulator on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            runSimulator();
+        });
+
+        // Quiz Evaluator
+        function submitQuiz(event) {
+            event.preventDefault();
+            const answers = { q1: 'A', q2: 'A', q3: 'D', q4: 'B', q5: 'B' };
+            let score = 0;
+            let total = 5;
+
+            for (let i = 1; i <= total; i++) {
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                if(selected && selected.value === answers[`q${i}`]) {
+                const expl = document.getElementById(`expl-q${i}`);
+                expl.classList.remove('hidden');
+
+                if (selected && selected.value === answers[`q${i}`]) {
                     score += 20;
                 }
             }
 
-            currentQuizScore = score;
-            const badge = document.getElementById('quizScoreBadge');
-            badge.innerText = `Nilai Kuis: ${score} / 100`;
-            badge.className = `text-xs px-3 py-1 rounded-full border font-bold ${score >= 75 ? 'bg-green-900/80 text-green-300 border-green-500' : 'bg-red-900/80 text-red-300 border-red-500'}`;
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('quiz-score-badge').classList.remove('hidden');
+            
+            const recapStatus = document.getElementById('recap-status');
+            recapStatus.innerText = "Selesai Dikerjakan";
+            recapStatus.className = "px-2.5 py-1 text-xs font-semibold bg-green-500/20 text-green-400 rounded-full border border-green-500/30";
+            document.getElementById('recap-score').innerText = score + " / 100";
 
-            alert(`Kuis selesai! Nilai Anda: ${score}`);
-            updateRekapTable();
+            window.scrollTo({ top: document.getElementById('kuis').offsetTop - 80, behavior: 'smooth' });
         }
 
-        function saveReflection() {
-            const name = document.getElementById('refName').value.trim();
-            const text = document.getElementById('refText').value.trim();
-
-            if(!name || !text) {
-                alert('Harap isi Nama dan Catatan Refleksi terlebih dahulu.');
-                return;
+        // Reflection Form Handler
+        function submitReflection(event) {
+            event.preventDefault();
+            const name = document.getElementById('ref-name').value;
+            if (name.trim() !== "") {
+                document.getElementById('ref-success').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('ref-success').classList.add('hidden');
+                }, 4000);
             }
-
-            reflectionData = { name, text };
-            alert('Refleksi Anda berhasil disimpan!');
-            updateRekapTable();
         }
-
-        function updateRekapTable() {
-            const tbody = document.getElementById('rekapTableBody');
-            const name = reflectionData ? reflectionData.name : "Siswa (Anonim)";
-            const quiz = currentQuizScore !== null ? currentQuizScore : "Belum Kuis";
-            const refr = reflectionData ? reflectionData.text : "Belum Refleksi";
-            const status = (currentQuizScore !== null && currentQuizScore >= 75) ? "Tuntas" : "Belum Tuntas";
-
-            tbody.innerHTML = `
-                <tr class="border-b border-slate-800">
-                    <td class="p-3 font-semibold text-slate-200">${name}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-blue-900 text-blue-300">${quiz}</span></td>
-                    <td class="p-3 text-slate-400 max-w-xs truncate">${refr}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs ${status === 'Tuntas' ? 'bg-green-900 text-green-300' : 'bg-amber-900 text-amber-300'}">${status}</span></td>
-                </tr>
-            `;
-        }
-
-        runSimulation();
     </script>
 </body>
 </html>
